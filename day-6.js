@@ -1,7 +1,7 @@
 console.log("Start");
 let fs = require('fs');
-let str = fs.readFileSync('day-6.txt', 'utf8');
-// let str = fs.readFileSync('demo.txt', 'utf8');
+// let str = fs.readFileSync('day-6.txt', 'utf8');
+let str = fs.readFileSync('demob.txt', 'utf8');
 let texta = str.split("\n");
 
 let room = [];
