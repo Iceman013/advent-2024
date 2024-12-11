@@ -35,6 +35,16 @@ function sort(list, copy) {
         }
     }
 }
+
+function addToList(item, count, list, lcount) {
+    let loc = list.indexOf(item);
+    if (loc == -1) {
+        list.push(item);
+        lcount.push(count);
+    } else {
+        lcount[loc] += count;
+    }
+}
 const COUNT = 75;
 for (let i = 0; i < COUNT; i++) {
     if (i%5 == 0) {
@@ -49,34 +59,17 @@ for (let i = 0; i < COUNT; i++) {
         let item = stones[j];
         let ics = scount[j];
         if (item == 0) {
-            newL.push(1);
-            newS.push(ics);
+            addToList(1, ics, newL, newS);
         } else if (item.toString().length%2 == 0) {
             let str = item.toString();
-            newL.push(parseInt(str.substring(0, str.length/2)));
-            newL.push(parseInt(str.substring(str.length/2)));
-            newS.push(ics);
-            newS.push(ics);
+            addToList(parseInt(str.substring(0, str.length/2)), ics, newL, newS);
+            addToList(parseInt(str.substring(str.length/2)), ics, newL, newS);
         } else {
-            newL.push(2024*item);
-            newS.push(ics);
+            addToList(2024*item, ics, newL, newS);
         }
     }
     stones = newL;
     scount = newS;
-
-    // Fixify
-    for (let j = 0; j < stones.length - 1; j++) {
-        if (stones[j] == stones[j + 1]) {
-            scount[j + 1] += scount[j];
-            scount[j] = 0;
-
-            // Delete
-            stones.splice(j, 1);
-            scount.splice(j, 1);
-            j = j - 1;
-        }
-    }
 }
 
 function counter() {
