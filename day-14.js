@@ -8,7 +8,7 @@ let str = fs.readFileSync('day-14.txt', 'utf8');
 // let height = 7;
 let width = 101;
 let height = 103;
-let dur = 200;
+let dur = 7753;
 
 let texta = str.split("\n");
 
@@ -69,44 +69,85 @@ for (let i = 0; i < texta.length; i++) {
 }
 
 // Helper functions
-// Sum initiallizer
 
-let sums = [0,0,0,0];
-for (let i = 0; i < probs.length; i++) {
-    let ans = probs[i].getQuad();
-    if (ans != null) {
-        sums[ans]++;
-    }
-}
-console.log(sums);
-let sum = 1;
-for (let i = 0; i < sums.length; i++) {
-    sum = sum*sums[i];
-}
-
-console.log(sum);
-
-let grid = [];
-for (let i = 0; i < width; i++) {
-    let row = [];
-    for (let j = 0; j < height; j++) {
-        row.push(0);
-    }
-    grid.push(row);
-}
-
-for (let i = 0; i < probs.length; i++) {
-    grid[probs[i].px][probs[i].py]++;
-}
-
-for (let i = 0; i < width; i++) {
-    let str = "";
-    for (let j = 0; j < height; j++) {
-        if (grid[i][j] == 0) {
-            str = str + " ";
-        } else {
-            str = str + "#";
+function getSum() {
+    let sums = [0,0,0,0];
+    for (let i = 0; i < probs.length; i++) {
+        let ans = probs[i].getQuad();
+        if (ans != null) {
+            sums[ans]++;
         }
     }
-    console.log(str);
+    console.log(sums);
+    let sum = 1;
+    for (let i = 0; i < sums.length; i++) {
+        sum = sum*sums[i];
+    }
+    console.log(sum);
 }
+
+function print() {
+    let grid = [];
+    for (let i = 0; i < width; i++) {
+        let row = [];
+        for (let j = 0; j < height; j++) {
+            row.push(0);
+        }
+        grid.push(row);
+    }
+
+    for (let i = 0; i < probs.length; i++) {
+        grid[probs[i].px][probs[i].py]++;
+    }
+
+    for (let i = 0; i < width; i++) {
+        let str = "";
+        for (let j = 0; j < height; j++) {
+            if (grid[i][j] == 0) {
+                str = str + " ";
+            } else {
+                str = str + "#";
+            }
+        }
+        console.log(str);
+    }
+}
+function find() {
+    for (let a = 0; a < 10000; a++) {
+        for (let j = 0; j < probs.length; j++) {
+            probs[j].step();
+        }
+
+        let grid = [];
+        for (let i = 0; i < width; i++) {
+            let row = [];
+            for (let j = 0; j < height; j++) {
+                row.push(0);
+            }
+            grid.push(row);
+        }
+
+        for (let i = 0; i < probs.length; i++) {
+            grid[probs[i].px][probs[i].py]++;
+        }
+
+        for (let i = 0; i < width - 3; i++) {
+            for (let j = 0; j < height - 3; j++) {
+                out = true;
+                for (let x = 0; x < 3; x++) {
+                    for (let y = 0; y < 3; y++) {
+                        if (grid[i+x][j+y] == 0) {
+                            out = false;
+                        }
+                    }
+                }
+                if (out) {
+                    console.log(a);
+                }
+            }
+        }
+    }
+}
+getSum();
+print();
+// find();
